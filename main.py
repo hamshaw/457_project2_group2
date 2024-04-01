@@ -2,13 +2,13 @@ import peer
 
 if __name__ == "__main__":
     ##list all rooms in the house
-    room1 = Peer('living room', "0.0.0.0", 8000)
+    room1 = peer.Peer('living room', "0.0.0.0", 8000)
     room1.start()
 
-    room2 = Peer('kitchen', "0.0.0.0", 8001)
+    room2 = peer.Peer('kitchen', "0.0.0.0", 8001)
     room2.start()
 
-    room3 = Peer('bedroom', "0.0.0.0", 8002)
+    room3 = peer.Peer('bedroom', "0.0.0.0", 8002)
     room3.start()
 
     ##make a list of all the rooms

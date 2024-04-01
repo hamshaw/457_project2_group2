@@ -78,7 +78,7 @@ class Peer:
                 data = data.decode()
                 data = data.split()
                 command = data[0]
-                if command == 'unstick'
+                if command == 'unstick':
                     self.stick(False)
                 else:
                     temp = int(data[1])
