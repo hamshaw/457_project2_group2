@@ -1,8 +1,22 @@
 import socket
 import threading
 
+'''
+This is the Peer class.
+each room within the building has a thermostat of the Peer class,
+that holds all of its information and funtions.
+the hardware would connect and control current temperature if implemented
+
+made by Hannah Shaw, Brandon Mazurkiewicz, and Saif Fayed
+'''
+
+
 class Peer:
     def __init__(self, name, host, port):
+        '''
+        Each peer holds its own information, as well as the other rooms it connects to
+        the main file controls the connection to other peers
+        '''
         self.name = name
         self.host = host
         self.port = port
@@ -15,6 +29,9 @@ class Peer:
         self.stuck = False
 
     def set_goal(self, goal):
+        '''
+        if a peer is not "stuck" change the temperature to the new goal
+        '''
         if not self.stuck:
             self.goal = goal
             if self.current != self.goal:
@@ -23,9 +40,17 @@ class Peer:
             print("cannot override temperature")
 
     def stick(self, new: bool):
+        '''
+        sticks and unsticks a peer
+        adds and removes the ability to set this room to a unique temperature
+        '''
         self.stuck = new
 
     def set_current(self, current):
+        '''
+        would be controled by the hardware in a real life application
+        if the new temperature is not what we set the room to, change the temperature
+        '''
         self.current = current
         if self.current != self.goal:
             self.adjust()
@@ -98,6 +123,10 @@ class Peer:
         listen_thread.start()
 
     def __str__(self):
+        '''
+        gives us each rooms state. prints to consol
+        in real life application, this would be shown on the thermostat
+        '''
         temp = f'Temperature: {self.current}'
         goal = f'Goal Temperature: {self.goal}'
         if self.heat:
