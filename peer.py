@@ -109,7 +109,7 @@ class Peer:
                     temp = int(data[1])
                     if command == 'stick':
                         self.stuck = False
-                        self.change_goal(temp)
+                        self.set_goal(temp)
                         self.stick(True)
             except socket.error:
                 break

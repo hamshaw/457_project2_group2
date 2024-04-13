@@ -35,11 +35,21 @@ if __name__ == "__main__":
         this.connect(room.host, room.port)
 
     while True:
+        '''
+        continuously accept new input
+        these inputs would be from buttons on hardware of thermostat
+        if implemented in a real building
+        '''
         info = input()
         command = info.split()
         if command[0] == 'stick' or command[0] == 'unstick':
+            ##if the command is stick or unstick
+            ##then that needs to be sent to the other peers
             this.send_data(info)
+            this.set_goal(command[1])
         else:
+            ##other commands are just handled within this room
+            ##only effects the current "peer"
             if command[0] == 'read':
                 self.set_current(command[1])
             if command[0] == 'set':
