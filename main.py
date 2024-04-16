@@ -1,5 +1,6 @@
 import peer
 import time
+##works for single
 def menu():
     print("Enter:")
     print("\tstick {temp}\tsets all rooms to uniform temp")
@@ -11,7 +12,7 @@ def menu():
 
 if __name__ == "__main__":
     ##list all rooms in the house
-    room1 = peer.Peer('living room', "35.38.202.254", 8000)
+    room1 = peer.Peer('living room', "0.0.0.0", 8000)
     room1.start()
 
     room2 = peer.Peer('kitchen', "0.0.0.0", 8001)

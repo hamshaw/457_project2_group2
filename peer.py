@@ -2,6 +2,7 @@ import socket
 import threading
 
 '''
+works for single
 This is the Peer class.
 each room within the building has a thermostat of the Peer class,
 that holds all of its information and funtions.
