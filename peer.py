@@ -23,6 +23,7 @@ class Peer:
         self.port = port
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.connections = []
+        self.connections_data = {}
         self.heat = False
         self.AC = False
         self.current = 70
@@ -39,6 +40,7 @@ class Peer:
                 self.adjust()
         else:
             print("cannot override temperature")
+        self.send_data(self.__str__())
 
     def stick(self, new: bool):
         '''
@@ -55,6 +57,7 @@ class Peer:
         self.current = int(current)
         if self.current != self.goal:
             self.adjust()
+        self.send_data(self.__str__())
 
     def adjust(self):
         if self.goal > self.current:
@@ -68,11 +71,13 @@ class Peer:
         if self.goal == self.current:
             self.AC = False
             self.heat = False
+        self.send_data(self.__str__())
 
     def connect(self, peer_host, peer_port):
         connection = socket.create_connection((peer_host, peer_port))
 
         self.connections.append(connection)
+
         print(f"Connected to {peer_host}:{peer_port}")
 
     def listen(self):
@@ -83,6 +88,7 @@ class Peer:
         while True:
             connection, address = self.socket.accept()
             self.connections.append(connection)
+            self.send_data(self.__str__())
             print(f"Accepted connection from {address}")
             threading.Thread(target=self.handle_client, args=(connection, address)).start()
 
@@ -97,22 +103,28 @@ class Peer:
     def handle_client(self, connection, address):
         while True:
             try:
-                data = connection.recv(1024)
+                data = connection.recv(4096)
                 if not data:
+                    print(data)
                     break
                 ##print(f"Received data from {address}: {data.decode()}")
                 data = data.decode()
-                data = data.split()
-                command = data[0]
+                data1 = data.split()
+                command = data1[0]
+                ##if len(data) > 30:
+                ##    self.connections_data[connection] = data
                 if command == 'unstick':
                     self.stick(False)
-                else:
-                    temp = int(data[1])
+                elif command == 'stick':
+                    temp = int(data1[1])
                     if command == 'stick':
                         self.stuck = False
                         self.set_goal(temp)
                         self.stick(True)
-            except socket.error:
+                else:
+                    self.connections_data[connection] = data
+            except socket.error as e:
+                print(e)
                 break
 
         print(f"Connection from {address} closed.")
@@ -128,8 +140,8 @@ class Peer:
         gives us each rooms state. prints to consol
         in real life application, this would be shown on the thermostat
         '''
-        temp = f'Temperature: {self.current}'
-        goal = f'Goal Temperature: {self.goal}'
+        temp = f'Temp: {self.current}'
+        goal = f'Goal Temp: {self.goal}'
         if self.heat:
             heat = 'on'
         else:
@@ -139,6 +151,6 @@ class Peer:
         else:
             ac = 'off'
 
-        heatout = f'The heat is turned {heat}'
-        acout = f'The AC is turned {ac}'
+        heatout = f'The heat is {heat}'
+        acout = f'The AC is {ac}'
         return(f'{self.name} - \n{temp}\n{goal}\n{heatout}\n{acout}\n\n')
