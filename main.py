@@ -14,7 +14,7 @@ if __name__ == "__main__":
     ##list all rooms in the house
     room1 = peer.Peer('living room', "0.0.0.0", 8000)
     room1.start()
-
+'''
     room2 = peer.Peer('kitchen', "0.0.0.0", 8001)
     room2.start()
 
@@ -46,6 +46,7 @@ if __name__ == "__main__":
     for room in rooms:
         this.connect(room.host, room.port)
     time.sleep(1)##syncronize timing
+'''
     menu()
     while True:
         '''
