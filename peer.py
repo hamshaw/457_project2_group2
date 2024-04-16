@@ -33,7 +33,7 @@ class Peer:
         if a peer is not "stuck" change the temperature to the new goal
         '''
         if not self.stuck:
-            self.goal = goal
+            self.goal = int(goal)
             if self.current != self.goal:
                 self.adjust()
         else:
@@ -51,7 +51,7 @@ class Peer:
         would be controled by the hardware in a real life application
         if the new temperature is not what we set the room to, change the temperature
         '''
-        self.current = current
+        self.current = int(current)
         if self.current != self.goal:
             self.adjust()
 
@@ -140,4 +140,4 @@ class Peer:
 
         heatout = f'The heat is turned {heat}'
         acout = f'The AC is turned {ac}'
-        return(f'{self.name}:\n{temp}\n{goal}\n{heatout}\n{acout}\n\n\n')
+        return(f'{self.name} - \n{temp}\n{goal}\n{heatout}\n{acout}\n\n')
