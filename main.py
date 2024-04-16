@@ -12,9 +12,10 @@ def menu():
 
 if __name__ == "__main__":
     ##list all rooms in the house
-    room1 = peer.Peer('living room', "0.0.0.0", 8000)
-    room1.start()
-'''
+    room2 = peer.Peer('kitchen', "35.38.205.195", 8000)
+    room2.start()
+    this = room2
+    '''
     room2 = peer.Peer('kitchen', "0.0.0.0", 8001)
     room2.start()
 
@@ -46,7 +47,7 @@ if __name__ == "__main__":
     for room in rooms:
         this.connect(room.host, room.port)
     time.sleep(1)##syncronize timing
-'''
+    '''
     menu()
     while True:
         '''
@@ -74,7 +75,7 @@ if __name__ == "__main__":
                 print(this)
                 #print()
                 print("In the other rooms of the building: ")
-                for room in rooms:
+                for room in this.connections:
                     print(room)
             if command[0] == 'menu':
                 menu()    
