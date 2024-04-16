@@ -5,29 +5,28 @@ def menu():
     print("Enter:")
     print("\tstick {temp}\tsets all rooms to uniform temp")
     print("\tunstick\t\tunsticks all rooms so they can set temp")
-    print("\tread\t\tsets rooms current temp (thermometer funct)")
-    print("\tset\t\tsets rooms goal temp if unstuck")
+    print("\tread {temp}\tsets rooms current temp (thermometer funct)")
+    print("\tset {temp}\tsets rooms goal temp if unstuck")
     print("\tstatus\t\tgives info on all rooms")
     print("\tmenu\t\trepeat options")
 
 if __name__ == "__main__":
     ##list all rooms in the house
-    room2 = peer.Peer('kitchen', "35.38.205.195", 8000)
-    room2.start()
-    this = room2
-    '''
+    room1 = peer.Peer('living room', "0.0.0.0", 8000)
+    #room1.start()
+
     room2 = peer.Peer('kitchen', "0.0.0.0", 8001)
-    room2.start()
+    #room2.start()
 
     room3 = peer.Peer('bedroom', "0.0.0.0", 8002)
-    room3.start()
+    #room3.start()
 
     ##make a list of all the rooms
     rooms = [room1, room2, room3]
 
     ##get the room that the process is running on and remove it from list of rooms
     ##set 'this' to current room
-    time.sleep(1)##correct timing of connections to other rooms
+    #time.sleep(1)##correct timing of connections to other rooms
     thisroom = input("Enter room ID: ")
     match thisroom:
         case '1':
@@ -42,12 +41,12 @@ if __name__ == "__main__":
         case _:
             raise("invalid room entry")
     print(f'you are in the {this.name}')
-
+    this.start()
+    time.sleep(20)
     ##establish a connection to each room
     for room in rooms:
         this.connect(room.host, room.port)
-    time.sleep(1)##syncronize timing
-    '''
+    time.sleep(10)##syncronize timing
     menu()
     while True:
         '''
@@ -75,7 +74,10 @@ if __name__ == "__main__":
                 print(this)
                 #print()
                 print("In the other rooms of the building: ")
-                for room in this.connections:
-                    print(room)
+                for con, room in this.connections_data.items():
+                    try:
+                        print(room)
+                    except:
+                        continue
             if command[0] == 'menu':
-                menu()    
+                menu()
